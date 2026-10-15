@@ -1,110 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Scheme Finder</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f4f8;
-            margin: 0;
-            text-align: center;
-        }
-
-        header {
-            background: #075e54;
-            color: white;
-            padding: 25px;
-        }
-
-        .container {
-            background: white;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px #cccccc;
-        }
-
-        input, select, button {
-            width: 90%;
-            padding: 12px;
-            margin: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        button {
-            background: #075e54;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #result {
-            margin-top: 20px;
-            text-align: left;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Scheme Finder</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;text-align:center;color:#243047}
+header{background:#075e54;color:white;padding:25px}
+.container{background:white;max-width:650px;margin:30px auto;padding:24px;border-radius:12px;box-shadow:0 4px 12px #ccc}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box}
+button{background:#075e54;color:white;cursor:pointer;font-size:16px}
+.scheme{border:1px solid #cbd5d1;border-radius:9px;padding:15px;margin:12px 0;text-align:left}
+.scheme button{width:auto;padding:10px 15px}
+.details{background:#f0f7f5;padding:12px;border-radius:7px;margin-top:10px}
+#result{text-align:left;margin-top:20px}
+small{display:block;color:#52615e}
+</style>
 </head>
-
 <body>
-
 <header>
-    <h1>Government Scheme Finder 🇮🇳</h1>
-    <p>Discover government schemes that may suit you.</p>
+<h1>Government Scheme Finder 🇮🇳</h1>
+<p>Discover schemes that may suit you.</p>
 </header>
 
 <div class="container">
-    <h2>Find Suitable Schemes</h2>
+<h2>Find Suitable Schemes</h2>
+<label for="category">Select your category:</label>
+<select id="category">
+<option value="student">Student</option>
+<option value="farmer">Farmer</option>
+<option value="woman">Woman</option>
+<option value="business">Business Owner</option>
+</select>
+<button onclick="findSchemes()">Find Schemes</button>
+<div id="result" aria-live="polite"></div>
+</div>
 
-    <label for="category">Select your category:</label>
-
-    <select id="category">
-        <option value="student">Student</option>
-        <option value="farmer">Farmer</option>
-        <option value="woman">Woman</option>
-        <option value="business">Business Owner</option>
-    </select>
-
-    <button onclick="findSchemes()">Find Schemes</button>
-
-    <div id="result"></div>
+<div class="container">
+<h2>Basic Eligibility Checker</h2>
+<p>Answer these questions for general guidance. This is not an official eligibility decision.</p>
+<label for="age">Your age:</label>
+<input id="age" type="number" min="1" max="120" placeholder="Enter age">
+<label for="income">Annual family income (₹):</label>
+<input id="income" type="number" min="0" placeholder="Enter annual income">
+<label for="state">State or Union Territory:</label>
+<input id="state" type="text" placeholder="e.g. Andhra Pradesh">
+<button onclick="checkEligibility()">Check Guidance</button>
+<div id="eligibility" aria-live="polite"></div>
 </div>
 
 <script>
-function findSchemes() {
-    const category = document.getElementById("category").value;
-    const result = document.getElementById("result");
+const schemes = {
+student: [
+{name:"National Scholarship Portal",detail:"Find scholarships offered by central and state authorities. Requirements vary by scholarship.",url:"https://scholarships.gov.in/"},
+{name:"AICTE Scholarships",detail:"Explore AICTE scholarship opportunities and check the current scheme requirements.",url:"https://www.aicte-india.org/"}
+],
+farmer: [
+{name:"PM-KISAN",detail:"Income-support scheme for eligible landholding farmer families, subject to official exclusions and verification.",url:"https://pmkisan.gov.in/"},
+{name:"Pradhan Mantri Fasal Bima Yojana",detail:"Crop insurance information. Availability and eligibility depend on notified crops, areas and current rules.",url:"https://pmfby.gov.in/"}
+],
+woman: [
+{name:"Pradhan Mantri Matru Vandana Yojana",detail:"Maternity benefit scheme for eligible applicants under current rules.",url:"https://pmmvy.wcd.gov.in/"},
+{name:"Women and Child Development",detail:"Explore official women and child welfare information and services.",url:"https://wcd.gov.in/"}
+],
+business: [
+{name:"Pradhan Mantri MUDRA Yojana",detail:"Information about loans for eligible non-corporate, non-farm small and micro enterprises.",url:"https://www.mudra.org.in/"},
+{name:"Prime Minister's Employment Generation Programme",detail:"Explore the scheme and its current eligibility, project and application requirements.",url:"https://www.kviconline.gov.in/pmegpeportal/"}
+]
+};
 
-    const schemes = {
-        student: [
-            "National Scholarship Portal — check available scholarships.",
-            "Post-Matric Scholarships — eligibility depends on the scheme."
-        ],
-        farmer: [
-            "PM-KISAN — check the official eligibility requirements.",
-            "Pradhan Mantri Fasal Bima Yojana — crop insurance information."
-        ],
-        woman: [
-            "Pradhan Mantri Matru Vandana Yojana — check eligibility.",
-            "Other central and state women welfare schemes."
-        ],
-        business: [
-            "Pradhan Mantri MUDRA Yojana — information about business loans.",
-            "PMEGP — check the official eligibility requirements."
-        ]
-    };
+function findSchemes(){
+const category=document.getElementById("category").value;
+const result=document.getElementById("result");
+result.innerHTML="<h3>Suggested schemes</h3>";
+schemes[category].forEach((s,i)=>{
+const card=document.createElement("div");
+card.className="scheme";
+const title=document.createElement("h3");
+title.textContent=s.name;
+const description=document.createElement("p");
+description.textContent=s.detail;
+const button=document.createElement("button");
+button.textContent="View details";
+button.onclick=()=>{
+let old=card.querySelector(".details");
+if(old){old.remove();button.textContent="View details";return;}
+const details=document.createElement("div");
+details.className="details";
+const p=document.createElement("p");
+p.textContent=s.detail;
+const link=document.createElement("a");
+link.href=s.url;
+link.target="_blank";
+link.rel="noopener noreferrer";
+link.textContent="Visit official website";
+details.append(p,link);
+card.appendChild(details);
+button.textContent="Hide details";
+};
+card.append(title,description,button);
+result.appendChild(card);
+});
+const note=document.createElement("p");
+note.textContent="These are suggestions, not confirmation of eligibility. Verify current rules on the official website.";
+result.appendChild(note);
+}
 
-    result.innerHTML =
-        "<h3>Suggested schemes</h3><ul>" +
-        schemes[category].map(scheme => "<li>" + scheme + "</li>").join("") +
-        "</ul><p>Please verify eligibility and current details on official government websites.</p>";
+function checkEligibility(){
+const ageValue=document.getElementById("age").value;
+const incomeValue=document.getElementById("income").value;
+const stateValue=document.getElementById("state").value.trim();
+const output=document.getElementById("eligibility");
+if(!ageValue||Number(ageValue)<1||Number(ageValue)>120||
+incomeValue===""||Number(incomeValue)<0||!stateValue){
+output.textContent="Please enter a valid age, annual family income and state.";
+return;
+}
+output.textContent="Your details have been checked for completeness. This basic demo cannot confirm eligibility because every scheme has different rules. Open the suggested scheme's official website and check its age, income, residence and other requirements. State entered: "+stateValue+".";
 }
 </script>
-
 </body>
 </html>
