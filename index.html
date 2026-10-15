@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Scheme Finder</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            text-align: center;
+        }
+
+        header {
+            background: #075e54;
+            color: white;
+            padding: 25px;
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #cccccc;
+        }
+
+        input, select, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #075e54;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Government Scheme Finder 🇮🇳</h1>
+    <p>Discover government schemes that may suit you.</p>
+</header>
+
+<div class="container">
+    <h2>Find Suitable Schemes</h2>
+
+    <label for="category">Select your category:</label>
+
+    <select id="category">
+        <option value="student">Student</option>
+        <option value="farmer">Farmer</option>
+        <option value="woman">Woman</option>
+        <option value="business">Business Owner</option>
+    </select>
+
+    <button onclick="findSchemes()">Find Schemes</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function findSchemes() {
+    const category = document.getElementById("category").value;
+    const result = document.getElementById("result");
+
+    const schemes = {
+        student: [
+            "National Scholarship Portal — check available scholarships.",
+            "Post-Matric Scholarships — eligibility depends on the scheme."
+        ],
+        farmer: [
+            "PM-KISAN — check the official eligibility requirements.",
+            "Pradhan Mantri Fasal Bima Yojana — crop insurance information."
+        ],
+        woman: [
+            "Pradhan Mantri Matru Vandana Yojana — check eligibility.",
+            "Other central and state women welfare schemes."
+        ],
+        business: [
+            "Pradhan Mantri MUDRA Yojana — information about business loans.",
+            "PMEGP — check the official eligibility requirements."
+        ]
+    };
+
+    result.innerHTML =
+        "<h3>Suggested schemes</h3><ul>" +
+        schemes[category].map(scheme => "<li>" + scheme + "</li>").join("") +
+        "</ul><p>Please verify eligibility and current details on official government websites.</p>";
+}
+</script>
+
+</body>
+</html>
