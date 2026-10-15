@@ -106,17 +106,96 @@ note.textContent="These are suggestions, not confirmation of eligibility. Verify
 result.appendChild(note);
 }
 
-function checkEligibility(){
-const ageValue=document.getElementById("age").value;
-const incomeValue=document.getElementById("income").value;
-const stateValue=document.getElementById("state").value.trim();
-const output=document.getElementById("eligibility");
-if(!ageValue||Number(ageValue)<1||Number(ageValue)>120||
-incomeValue===""||Number(incomeValue)<0||!stateValue){
-output.textContent="Please enter a valid age, annual family income and state.";
-return;
-}
-output.textContent="Your details have been checked for completeness. This basic demo cannot confirm eligibility because every scheme has different rules. Open the suggested scheme's official website and check its age, income, residence and other requirements. State entered: "+stateValue+".";
+function checkEligibility() {
+    const ageValue = document.getElementById("age").value;
+    const incomeValue = document.getElementById("income").value;
+    const stateValue = document.getElementById("state").value.trim();
+    const output = document.getElementById("eligibility");
+
+    output.innerHTML = "";
+
+    const age = Number(ageValue);
+    const income = Number(incomeValue);
+
+    if (
+        ageValue === "" ||
+        incomeValue === "" ||
+        stateValue === "" ||
+        !Number.isFinite(age) ||
+        !Number.isFinite(income) ||
+        age < 1 ||
+        age > 120 ||
+        income < 0
+    ) {
+        output.textContent =
+            "Please enter a valid age, annual family income, and state.";
+        return;
+    }
+
+    const heading = document.createElement("h3");
+    heading.textContent = "Your Eligibility Guidance";
+    output.appendChild(heading);
+
+    const intro = document.createElement("p");
+    intro.textContent =
+        "Based on the details entered, here are schemes you can investigate. Final eligibility depends on each scheme's official rules.";
+    output.appendChild(intro);
+
+    const suggestions = [];
+
+    if (age >= 18 && age <= 25) {
+        suggestions.push({
+            name: "National Scholarship Portal",
+            detail:
+                "Check available student scholarships. Eligibility depends on your course, marks, family income, and scheme-specific conditions.",
+            url: "https://scholarships.gov.in/"
+        });
+    }
+
+    if (income <= 250000) {
+        suggestions.push({
+            name: "National Social Assistance Programme",
+            detail:
+                "Check whether any social assistance pension applies. Specific age, income, and other conditions vary by scheme.",
+            url: "https://nsap.nic.in/"
+        });
+    }
+
+    suggestions.push({
+        name: "myScheme Government Scheme Finder",
+        detail:
+            "Use the official scheme discovery portal to explore schemes using your personal details and check their eligibility criteria.",
+        url: "https://www.myscheme.gov.in/"
+    });
+
+    const stateNote = document.createElement("p");
+    stateNote.textContent = "State entered: " + stateValue;
+    output.appendChild(stateNote);
+
+    suggestions.forEach(function (scheme) {
+        const card = document.createElement("div");
+        card.className = "scheme";
+
+        const title = document.createElement("h4");
+        title.textContent = scheme.name;
+
+        const detail = document.createElement("p");
+        detail.textContent = scheme.detail;
+
+        const link = document.createElement("a");
+        link.href = scheme.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Check Official Website";
+
+        card.append(title, detail, link);
+        output.appendChild(card);
+    });
+
+    const note = document.createElement("p");
+    note.textContent =
+        "Important: These are suggestions, not confirmed eligibility results. Verify age, income, residence, and other requirements on the official websites.";
+    output.appendChild(note);
 }
 </script>
 </body>
