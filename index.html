@@ -27,10 +27,11 @@ small{display:block;color:#52615e}
 <h2>Find Suitable Schemes</h2>
 <label for="category">Select your category:</label>
 <select id="category">
-<option value="student">Student</option>
-<option value="farmer">Farmer</option>
-<option value="woman">Woman</option>
-<option value="business">Business Owner</option>
+    <option value="" selected disabled>-- Select your category --</option>
+    <option value="student">Student</option>
+    <option value="farmer">Farmer</option>
+    <option value="woman">Woman</option>
+    <option value="business">Business Owner</option>
 </select>
 <button onclick="findSchemes()">Find Schemes</button>
 <div id="result" aria-live="polite"></div>
