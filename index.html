@@ -125,20 +125,23 @@ function checkEligibility() {
     const age = Number(ageValue);
     const income = Number(incomeValue);
 
-    if (
-        ageValue === "" ||
-        incomeValue === "" ||
-        stateValue === "" ||
-        !Number.isFinite(age) ||
-        !Number.isFinite(income) ||
-        age < 1 ||
-        age > 120 ||
-        income < 0
-    ) {
-        output.textContent =
-            "Please enter a valid age, annual family income, and state.";
-        return;
-    }
+   if (ageValue === "" || incomeValue === "" || stateValue === "") {
+    output.textContent =
+        "⚠️ Please fill in your age, annual family income, and state.";
+    return;
+}
+
+if (
+    !Number.isFinite(age) ||
+    !Number.isFinite(income) ||
+    age < 1 ||
+    age > 120 ||
+    income < 0
+) {
+    output.textContent =
+        "⚠️ Please enter a valid age and annual family income.";
+    return;
+}
 
     const heading = document.createElement("h3");
     heading.textContent = "Your Eligibility Guidance";
