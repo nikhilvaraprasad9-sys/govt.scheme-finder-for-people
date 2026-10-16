@@ -69,9 +69,16 @@ business: [
 ]
 };
 
+
 function findSchemes(){
-const category=document.getElementById("category").value;
-const result=document.getElementById("result");
+    const category = document.getElementById("category").value;
+
+    if (!category) {
+        alert("Please select a category first!");
+        return;
+    }
+
+    const result = document.getElementById("result");
 result.innerHTML="<h3>Suggested schemes</h3>";
 schemes[category].forEach((s,i)=>{
 const card=document.createElement("div");
