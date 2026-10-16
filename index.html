@@ -72,6 +72,14 @@ business: [
 
 
 function findSchemes(){
+    const age = document.getElementById("age").value;
+const income = document.getElementById("income").value;
+const state = document.getElementById("state").value.trim();
+
+if (age === "" || income === "" || state === "") {
+    alert("Please fill in all eligibility details first!");
+    return;
+}
     const category = document.getElementById("category").value;
 
     if (!category) {
